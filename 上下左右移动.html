@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <style type="text/css">
+        div{
+            width: 100px;
+            height: 100px;
+            background-color: red;
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+<div></div>
+<script type="text/javascript">
+
+
+
+/*****************华丽的分割线*************************/
+// 获取元素
+const div = document.querySelector('div');
+// 初始化
+// 为false时，抬起，为true时，按下
+let leftOff = false;
+let rightOff = false;
+let bottonOff = false;
+let topOff = false;
+
+
+// 按下
+document.onkeydown = function(ev){
+    // 左键
+    if (ev.keyCode == 37) {
+        if (leftOff) return;//如果为true，说明鼠标抬起
+        leftOff = true;
+        // 开启定时器时先清除
+        clearInterval(div.leftTimer);
+        // 开定时器
+        div.leftTimer = setInterval(function(){
+            // 获取左键坐标，每次运动10
+            let left = div.offsetLeft - 10;
+            // 边界处理
+            if (left<=0) {
+                left = 0;
+                clearInterval(div.leftTimer);
+            };
+            // div的位置变化，
+            div.style.left = left + 'px';
+            console.log(left);
+        },10)
+    };
+
+    // 上键
+    if (ev.keyCode == 38) {
+        // 
+        if (topOff) return;
+        topOff = true;
+
+        clearInterval(div.topTimer);
+        div.topTimer = setInterval(function(){
+            let top = div.offsetTop - 10;
+            if (top <=0) {
+                top = 0;
+                clearInterval(div.topTimer);
+            }
+            div.style.top = top + 'px';
+            console.log(top);
+        },10);
+    }
+
+
+    // 右键
+    if (ev.keyCode == 39) {
+        if (rightOff) return;
+        rightOff = true;
+        clearInterval(div.rightTimer);
+        div.rightTimer = setInterval(function(){
+            let right = div.offsetLeft + 1;
+            if (right >= 1330) {
+                right = 1330;
+            };
+            div.style.left = right +'px';
+            console.log(right);
+        },20);
+    };
+    // 下键
+    if (ev.keyCode == 40) {
+        if (bottonOff) return;
+
+        bottonOff = true;
+
+        clearInterval(div.bottonTimer);
+        div.bottonTimer = setInterval(function(){
+            let botton = div.offsetTop + 1;
+            if (botton >= 660) {
+                botton = 660;
+            };
+            div.style.top = botton +'px';
+            console.log(botton);
+        },20);
+    };
+};
+// 鼠标抬起
+document.onkeyup = function(ev){
+    // 还原，转为按下
+    bottonOff = false;
+    leftOff = false;
+    rightOff = false;
+    topOff = false;
+
+    // 鼠标抬起，清除所有的定时器
+    clearInterval(div.rightTimer);
+    clearInterval(div.leftTimer);
+    clearInterval(div.bottonTimer);
+    clearInterval(div.topTimer);
+}
+
+
+/*****************华丽的分割线*************************/
+</script>
+</body>
+</html>
